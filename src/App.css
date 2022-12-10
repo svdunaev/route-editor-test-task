@@ -36,3 +36,7 @@
     transform: rotate(360deg);
   }
 }
+
+.ymaps-2-1-79-map-copyrights-promo {
+  display: none;
+}
