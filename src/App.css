@@ -2,10 +2,6 @@
   display: none;
 }
 
-li {
+.card-body {
   cursor: grab;
-}
-
-li:active {
-  cursor: grabbing;
 }
