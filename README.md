@@ -1,6 +1,6 @@
 # React Route Editor.
 
-[route editor >>](https://svdunaev.github.io/test-task-maps/)
+[route editor >>](https://svdunaev.github.io/route-editor-test-task/)
 
 ## How to start 
 
