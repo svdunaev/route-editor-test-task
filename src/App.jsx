@@ -10,6 +10,7 @@ import { nanoid } from 'nanoid'
 import './App.css'
 import CardItem from './components/CardItem'
 
+
 const API_KEY = process.env.REACT_APP_API_KEY
 
 function App() {
@@ -67,8 +68,10 @@ function App() {
     }
   }
 
-  const handleDelete = (evt) => {
-    console.log(evt.target)
+  const removeAddress = (id) => {
+    setAddresses((addresses) => {
+      return addresses.filter(address => address.id !== id)
+    })
   }
 
   const itemIds = useMemo(() => addresses.map((item) => item.id), [addresses])
@@ -87,7 +90,7 @@ function App() {
         <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
           <ul>
             {addresses.map((address) => (
-            <CardItem draggable={true} key={address.id} id={address.id} text={address.text} handleDelete={handleDelete} />
+            <CardItem draggable={true} key={address.id} addressId={address.id} text={address.text} removeAddress={removeAddress}/>
           ))}
           </ul>
           
