@@ -21,7 +21,7 @@ function App() {
 
   const fetchCoords = useCallback((text) => {
     return fetch(
-      `http://geocode-maps.yandex.ru/1.x/?apikey=${API_KEY}&format=json&geocode=${text}&results=1`,
+      `https://geocode-maps.yandex.ru/1.x/?apikey=${API_KEY}&format=json&geocode=${text}&results=1`,
     )
       .then((response) => {
         return response.json()
