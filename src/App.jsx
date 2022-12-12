@@ -8,8 +8,10 @@ import {
 } from '@dnd-kit/sortable'
 import { nanoid } from 'nanoid'
 import './App.css'
-import CardItem from './components/CardItem'
+import ListItem from './components/ListItem'
 
+import { Container } from './components/Container'
+import { Section } from './components/Section'
 
 const API_KEY = process.env.REACT_APP_API_KEY
 
@@ -44,6 +46,7 @@ function App() {
           coords,
         },
       ])
+      setText('')
     }
   }
 
@@ -70,66 +73,78 @@ function App() {
 
   const removeAddress = (id) => {
     setAddresses((addresses) => {
-      return addresses.filter(address => address.id !== id)
+      return addresses.filter((address) => address.id !== id)
     })
   }
 
   const itemIds = useMemo(() => addresses.map((item) => item.id), [addresses])
 
   return (
-    <>
-      <label>
+    <Container>
+      <Section>
         <input
           value={text}
           onChange={(evt) => setText(evt.target.value)}
           onKeyDown={addAddress}
-        ></input>
-      </label>
-
-      <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-        <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
-          <ul>
-            {addresses.map((address) => (
-            <CardItem draggable={true} key={address.id} addressId={address.id} text={address.text} removeAddress={removeAddress}/>
-          ))}
-          </ul>
-          
-        </SortableContext>
-      </DndContext>
-      <YMaps>
-        <Map
-          width={'500px'}
-          height={'500px'}
-          state={{ center: [55.75, 37.61], zoom: 11 }}
+          placeholder={'Введите адрес'}
+          style={{marginBottom: '2rem', lineHeight: '2.5'}}
+        />
+        <DndContext
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
         >
-          <Polyline geometry={getGeometry(addresses)}></Polyline>
-          {addresses.map((address) => (
-            <Placemark
-              key={address.id}
-              modules={['geoObject.addon.balloon']}
-              geometry={address.coords}
-              options={{ draggable: true }}
-              properties={{
-                balloonContentBody: `${address.text}`,
-              }}
-              onDragEnd={(evt) =>
-                setAddresses((prev) =>
-                  prev.map((a) => {
-                    if (a.id === address.id) {
-                      return {
-                        ...a,
-                        coords: evt.get('target').geometry.getCoordinates(),
+          <SortableContext
+            items={itemIds}
+            strategy={verticalListSortingStrategy}
+          >
+            {addresses.map((address) => (
+              <ListItem
+                draggable={true}
+                key={address.id}
+                addressId={address.id}
+                text={address.text}
+                removeAddress={removeAddress}
+              />
+            ))}
+          </SortableContext>
+        </DndContext>
+      </Section>
+      <Section>
+        <YMaps>
+          <Map
+            width={'500px'}
+            height={'500px'}
+            state={{ center: [55.75, 37.61], zoom: 11 }}
+          >
+            <Polyline geometry={getGeometry(addresses)}></Polyline>
+            {addresses.map((address) => (
+              <Placemark
+                key={address.id}
+                modules={['geoObject.addon.balloon']}
+                geometry={address.coords}
+                options={{ draggable: true }}
+                properties={{
+                  balloonContentBody: `${address.text}`,
+                }}
+                onDragEnd={(evt) =>
+                  setAddresses((prev) =>
+                    prev.map((a) => {
+                      if (a.id === address.id) {
+                        return {
+                          ...a,
+                          coords: evt.get('target').geometry.getCoordinates(),
+                        }
                       }
-                    }
-                    return a
-                  }),
-                )
-              }
-            />
-          ))}
-        </Map>
-      </YMaps>
-    </>
+                      return a
+                    }),
+                  )
+                }
+              />
+            ))}
+          </Map>
+        </YMaps>
+      </Section>
+    </Container>
   )
 }
 
