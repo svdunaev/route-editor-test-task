@@ -99,7 +99,6 @@ function App() {
           >
             {addresses.map((address) => (
               <ListItem
-                draggable={true}
                 key={address.id}
                 addressId={address.id}
                 text={address.text}
