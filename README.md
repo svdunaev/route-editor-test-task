@@ -1,5 +1,11 @@
 # React Route Editor.
 
+## Stack
+
+* [React](https://github.com/facebook/react)
+* [React yandex maps](https://github.com/R1ZEN/react-yandex-maps)
+* [React DnD-Kit](https://github.com/clauderic/dnd-kit)
+
 [route editor >>](https://svdunaev.github.io/route-editor-test-task/)
 
 ## How to start 
